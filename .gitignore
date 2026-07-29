@@ -1,0 +1,12 @@
+dist/*.exe
+dist/*.zip
+dist/*.json
+dist/*-preview.png
+devdata-tercan/
+package-output/
+package-stage-*/
+research-goodbyedpi/
+artifacts/
+.tools/
+*.user
+*.suo

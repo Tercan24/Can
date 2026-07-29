@@ -1,0 +1,51 @@
+TERCAN.EXE 1.8.0 - HIZLI KULLANIM
+===============================
+
+1. Release klasöründeki tercan.exe dosyasını açın.
+2. Windows yönetici iznini kabul edin.
+3. Tek Tık Bakım sayfasında istediğiniz modülleri açık bırakın.
+4. Büyük TARA düğmesine basın. Bu adım hiçbir ayarı değiştirmez.
+5. Performans, gizlilik, gereksiz dosya ve onarım ayrıntılarını inceleyin.
+6. Büyük OPTİMİZE ET düğmesine basarak yalnız seçili güvenli işlemleri uygulayın.
+7. Yeniden başlatma yalnız uygulanan ayar gerçekten gerektiriyorsa önerilir; temizlik işlemi tek başına yeniden başlatmayı zorunlu kılmaz.
+8. Hızlandırma sayfasındaki Oyun Kipi'ni tek tıkla açın. Çalışan güvenli servisler ve arka plan uygulamaları geçici durdurulur; kartta kaç servis/süreç işlendiği gösterilir.
+9. Oyununuz bittiğinde "Kapat ve geri al" düğmesine basın. Servisler, güç planı ve oyun/kayıt ayarları önceki durumuna döner.
+10. Sonucu aynı oyun sahnesinde ve aynı grafik ayarlarıyla ölçün.
+
+KURULUM VE GÜNCELLEME
+---------------------
+1. İlk kurulum için tercan-setup.exe dosyasını açın ve "Şimdi kur" düğmesine basın.
+2. Uygulama Program Files\Tercan konumuna kurulur; Başlat menüsü ve isteğe bağlı masaüstü kısayolu oluşturulur.
+3. Sol menüdeki "Güncellemeler" sayfası GitHub'daki son kararlı sürümü denetler.
+4. "Tek tıkla güncelle" düğmesi setup dosyasını indirir, SHA-256 değerini doğrular ve kurulumu başlatır.
+5. Tercan açılışta sessizce güncelleme denetler; sizin onayınız olmadan kurulum başlatmaz.
+
+DISCORD / DPI
+-------------
+1. Sol menüden "Discord / DPI" sayfasını açın.
+2. "Resmî paketi indir" düğmesine basın. Tercan ZIP ve motor dosyalarını SHA-256 ile doğrular.
+3. Önce "Türkiye • Standart" profilini seçin ve "Türkiye profilini başlat" düğmesine basın.
+4. Bağlantı sorunu olursa "Durdur" düğmesini kullanın.
+5. Her oturumda çalışmasını istiyorsanız "GoodbyeDPI Windows ile başlasın" anahtarını açın.
+6. Tercan'ın bildirim alanında başlaması isteğe bağlıdır; DPI hizmeti için gerekli değildir.
+
+GoodbyeDPI bir VPN değildir; trafiği şifrelemez veya IP adresini gizlemez.
+Tercan Microsoft Defender dışlaması eklemez. Kullanımın yerel mevzuata ve
+ağ hizmeti koşullarına uygunluğunu kontrol edin.
+
+GÖSTERGE NE ANLAMA GELİR?
+-------------------------
+Hazırlık puanı ve tahmini etki puanı doğrudan FPS yüzdesi değildir.
+Puan; Windows ayarları, bellek baskısı, başlangıç ve arka plan yükünü
+gösterir. Donanım, sıcaklık ve oyun motoru gerçek sonucu belirler.
+
+GÜVENLİK
+--------
+- Tarama salt okunurdur; sistemde değişiklik yapmaz.
+- Öneriler kullanıcı onayı olmadan uygulanmaz.
+- Ana ayarlar, başlangıç, DNS ve HOSTS değişiklikleri yedeklenir.
+- Defender ve Windows Update'i kapatan ayarlar yoktur.
+- GoodbyeDPI için Defender dışlaması eklenmez.
+- SmartScreen, Güvenlik Duvarı, Sistem Geri Yükleme, Windows Update ve SMB2 tek tık profiliyle kapatılmaz.
+- BCD/HPET ve BIOS hız aşırtma işlemleri yoktur.
+- Tercan verileri %ProgramData%\Tercan altında saklanır.

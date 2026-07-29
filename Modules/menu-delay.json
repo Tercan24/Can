@@ -1,0 +1,19 @@
+{
+  "id": "desktop_menu_delay",
+  "title": "Menü açılış gecikmesini azalt",
+  "summary": "Windows masaüstü menülerinin açılma beklemesini 100 ms yapar.",
+  "details": "Yalnızca kullanıcı arayüzünün daha seri hissedilmesini sağlar; oyun içi FPS'i değiştirmez. Oturumu kapatıp açtıktan sonra tam olarak uygulanır ve Tercan üzerinden eski değerine döndürülebilir.",
+  "category": "Eklentiler",
+  "risk": "Safe",
+  "impact": "Low",
+  "requiresRestart": true,
+  "registry": [
+    {
+      "hive": "HKCU",
+      "path": "Control Panel\\Desktop",
+      "name": "MenuShowDelay",
+      "type": "String",
+      "enabledValue": "100"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+name: Build and publish tercan.exe
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Kaynakları al
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Uygulamayı derle ve doğrula
+        shell: powershell
+        run: .\Build.ps1 -Test -RenderPreviews
+
+      - name: Kurulum EXE'sini oluştur
+        shell: powershell
+        run: .\installer\Build-Setup.ps1
+
+      - name: Yayın paketlerini hazırla
+        shell: powershell
+        run: |
+          $version = (Get-Item .\dist\tercan.exe).VersionInfo.FileVersion
+          $shortVersion = ([Version]$version).ToString(3)
+          $setupVersion = (Get-Item .\dist\tercan-setup.exe).VersionInfo.FileVersion
+          if ([Version]$setupVersion -ne [Version]$version) {
+            throw "Uygulama ($version) ve setup ($setupVersion) sürümleri eşleşmiyor."
+          }
+
+          $portable = Join-Path $env:RUNNER_TEMP "tercan-portable"
+          New-Item -ItemType Directory -Force -Path $portable | Out-Null
+          Copy-Item .\dist\tercan.exe $portable
+          Copy-Item .\Modules $portable -Recurse
+          Copy-Item .\README.md,.\KULLANIM.txt,.\SHA256.txt $portable
+          Compress-Archive -Path (Join-Path $portable '*') -DestinationPath .\dist\tercan-portable.zip -Force
+
+          $source = Join-Path $env:RUNNER_TEMP "tercan-source"
+          New-Item -ItemType Directory -Force -Path $source | Out-Null
+          Copy-Item .\src,.\installer,.\assets,.\Modules,.\tools,.\.github $source -Recurse
+          Copy-Item .\Build.ps1,.\Build.cmd,.\README.md,.\CHANGELOG.md,.\KULLANIM.txt,.\SOURCES.md,.\THIRD_PARTY_NOTICES.md $source
+          Compress-Archive -Path (Join-Path $source '*') -DestinationPath .\dist\tercan-source.zip -Force
+
+          "TERCAN_VERSION=$shortVersion" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "TERCAN_TAG=v$shortVersion" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: GitHub Release oluştur veya güncelle
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $tag = $env:TERCAN_TAG
+          gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -ne 0) {
+            git tag $tag
+            git push origin $tag
+            gh release create $tag `
+              --repo $env:GITHUB_REPOSITORY `
+              --title "tercan.exe $env:TERCAN_VERSION" `
+              --notes-file .\CHANGELOG.md
+          }
+
+          gh release upload $tag `
+            .\dist\tercan-setup.exe `
+            .\dist\tercan.exe `
+            .\dist\tercan-portable.zip `
+            .\dist\tercan-source.zip `
+            .\dist\update.json `
+            --repo $env:GITHUB_REPOSITORY `
+            --clobber
+
+          gh release edit $tag `
+            --repo $env:GITHUB_REPOSITORY `
+            --title "tercan.exe $env:TERCAN_VERSION" `
+            --latest
