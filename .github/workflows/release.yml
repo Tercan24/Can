@@ -60,8 +60,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $tag = $env:TERCAN_TAG
-          gh release view $tag --repo $env:GITHUB_REPOSITORY *> $null
-          if ($LASTEXITCODE -ne 0) {
+          $publishedTags = @(gh release list `
+            --repo $env:GITHUB_REPOSITORY `
+            --limit 100 `
+            --json tagName `
+            --jq '.[].tagName')
+          if ($publishedTags -notcontains $tag) {
             git tag $tag
             git push origin $tag
             gh release create $tag `
